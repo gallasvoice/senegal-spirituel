@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>window.EXT=true;window.PHOTOS=true;</script>
 <title>Le Sénégal spirituel</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hanken+Grotesk:wght@400;600&display=swap">
 <style>
@@ -52,13 +53,15 @@ button { font-family: inherit; }
 .card .ct { font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 1.05; margin-top: auto; }
 .card .cs { font-size: 15px; line-height: 1.35; color: var(--parch); opacity: .85; }
 .card .dur { font: 600 12px var(--font-body); letter-spacing: .14em; color: var(--gold); margin-top: 6px; font-variant-numeric: tabular-nums; }
-@media (max-width: 640px) { .cards { grid-template-columns: 1fr; } .card { min-height: 0; } .card .ct { margin-top: 10px; } }
+.card:last-child:nth-child(odd) { grid-column: 1 / -1; min-height: 132px; }
+@media (max-width: 640px) { .cards { grid-template-columns: 1fr; } .card, .card:last-child:nth-child(odd) { min-height: 0; } .card .ct { margin-top: 10px; } }
 
 /* episode palettes */
 [data-ep="mouridisme"] { --deep: #06130f; --dot: var(--gold); --mute: #9db3a8; background: radial-gradient(ellipse at 50% 15%, #14452f 0%, #0a2018 55%, #06130f 100%); }
 [data-ep="tijaniyya"] { --deep: #05111a; --dot: var(--gold); --mute: #9fb4bf; background: radial-gradient(ellipse at 50% 15%, #134558 0%, #0a2230 55%, #05111a 100%); }
 [data-ep="layene"] { --deep: #0a0a1e; --dot: var(--parch); --mute: #a4a7c4; background: radial-gradient(ellipse at 50% 15%, #23256a 0%, #131340 55%, #0a0a1e 100%); }
 [data-ep="christianisme"] { --deep: #14080d; --dot: var(--parch); --mute: #c3a9b0; background: radial-gradient(ellipse at 50% 15%, #4d1b29 0%, #2b0f1a 55%, #14080d 100%); }
+[data-ep="qadiriyya"] { --deep: #120d05; --dot: var(--parch); --mute: #c2b391; background: radial-gradient(ellipse at 50% 15%, #5b4216 0%, #2f2209 55%, #120d05 100%); }
 .src { --mute: #aab0b8; }
 
 /* player */
@@ -117,6 +120,7 @@ button { font-family: inherit; }
 /* nodes */
 .nodes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3cqw; }
 .nodes.four { grid-template-columns: repeat(4, 1fr); gap: 2.4cqw; }
+.nodes.two { grid-template-columns: repeat(2, 1fr); gap: 3cqw; }
 .node { border-top: 2px solid var(--gold); padding-top: 1.4cqh; min-width: 0; }
 .node .y { display: block; font-family: var(--font-display); font-weight: 700; font-size: calc(var(--txt) * 1.55); color: var(--gold); line-height: 1; }
 .node small { display: block; margin-top: .6cqh; font-size: calc(var(--txt) * .8); line-height: 1.3; color: var(--parch); }
@@ -188,6 +192,13 @@ button { font-family: inherit; }
 }
 @container stage (max-width: 640px) { .ring { width: 30cqmin; height: 30cqmin; } }
 
+.phl { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.phl img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; opacity: 0; transition: opacity 1.4s ease; transform: scale(1.02); }
+.phl img.on { opacity: .42; animation: kb 22s ease-out forwards; }
+@keyframes kb { to { transform: scale(1.12); } }
+.phl::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55)); }
+.phc { position: absolute; right: 2cqw; bottom: 2.2cqh; z-index: 3; font: 11px var(--font-body); color: var(--parch); opacity: .8; text-decoration: none; background: rgba(0,0,0,.45); padding: 2px 7px; border-radius: 3px; max-width: 70%; }
+
 .prog { position: absolute; left: 0; right: 0; bottom: 0; height: max(3px, .45cqw); background: var(--line); }
 .prog i { display: block; height: 100%; background: var(--gold); transform-origin: left; transform: scaleX(0); }
 
@@ -198,6 +209,8 @@ button { font-family: inherit; }
 .btn.main { background: var(--gold); color: #1a1405; border-color: var(--gold); }
 .btn[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
 .btn:focus-visible, .dot:focus-visible { outline: 3px solid var(--parch); outline-offset: 2px; }
+.btn.tg::before { content: '○ '; }
+.btn.tg[aria-pressed="true"]::before { content: '● '; }
 .dots { display: flex; gap: 6px; flex-wrap: wrap; }
 .dot { width: 14px; height: 14px; padding: 0; border-radius: 50%; border: 1px solid var(--mute); background: transparent; cursor: pointer; }
 .dot.cur { background: var(--gold); border-color: var(--gold); }
@@ -227,7 +240,7 @@ button { font-family: inherit; }
 
   <section class="hero">
     <h1><span class="fr">Terre de foi, d'histoire et de transmission</span><span class="en">A land of faith, history and transmission</span></h1>
-    <p class="lead"><span class="fr">Quatre épisodes animés sur les grandes traditions religieuses du Sénégal : leurs lieux, leur histoire et leurs figures fondatrices. Chaque épisode existe en français et en anglais.</span><span class="en">Four animated episodes on Senegal's major religious traditions: their places, their history and their founding figures. Each episode is available in French and English.</span></p>
+    <p class="lead"><span class="fr">Cinq épisodes animés sur les grandes traditions religieuses du Sénégal : leurs lieux, leur histoire et leurs figures fondatrices. Chaque épisode existe en français et en anglais.</span><span class="en">Five animated episodes on Senegal's major religious traditions: their places, their history and their founding figures. Each episode is available in French and English.</span></p>
     <p class="fine"><span class="fr">Dates recoupées entre plusieurs sources. À faire relire par un représentant de chaque communauté avant toute diffusion publique.</span><span class="en">Dates cross-checked across several sources. Have a representative of each community review them before any public release.</span></p>
   </section>
 
@@ -236,6 +249,7 @@ button { font-family: inherit; }
     <button class="card" type="button" data-ep="tijaniyya"><span class="num">2</span><span class="ct"><span class="fr">La Tijaniyya</span><span class="en">The Tijaniyya</span></span><span class="cs"><span class="fr">Tivaouane et Médina Baye</span><span class="en">Tivaouane and Médina Baye</span></span><span class="dur"></span></button>
     <button class="card" type="button" data-ep="layene"><span class="num">3</span><span class="ct"><span class="fr">La Layène</span><span class="en">The Layène</span></span><span class="cs"><span class="fr">Yoff et Cambérène</span><span class="en">Yoff and Cambérène</span></span><span class="dur"></span></button>
     <button class="card" type="button" data-ep="christianisme"><span class="num">4</span><span class="ct"><span class="fr">Le christianisme</span><span class="en">Christianity</span></span><span class="cs"><span class="fr">De Gorée à Popenguine</span><span class="en">From Gorée to Popenguine</span></span><span class="dur"></span></button>
+    <button class="card" type="button" data-ep="qadiriyya"><span class="num">5</span><span class="ct"><span class="fr">La Qadiriyya</span><span class="en">The Qadiriyya</span></span><span class="cs"><span class="fr">De Bagdad à Ndiassane</span><span class="en">From Baghdad to Ndiassane</span></span><span class="dur"></span></button>
   </section>
 
   <section class="viewer" id="viewer" hidden>
@@ -762,12 +776,130 @@ button { font-family: inherit; }
     
       <div class="prog" aria-hidden="true"><i></i></div>
     </div>
+    <div class="stage" data-ep="qadiriyya" hidden>
+    <!-- 1 : titre -->
+    <section class="scene center" data-dur="5.5">
+      <div class="orn" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="#d8a94b" stroke-width=".8">
+          <rect x="30" y="30" width="140" height="140"/>
+          <rect x="30" y="30" width="140" height="140" transform="rotate(45 100 100)"/>
+          <circle cx="100" cy="100" r="70"/>
+          <circle cx="100" cy="100" r="52"/>
+          <circle cx="100" cy="100" r="98" stroke-dasharray="1 3"/>
+        </svg>
+      </div>
+      <p class="k r" style="--i:0"><span class="fr">Le Sénégal spirituel · Épisode 5</span><span class="en">Spiritual Senegal · Episode 5</span></p>
+      <h1 class="r" style="--i:1"><span class="fr">La Qadiriyya</span><span class="en">The Qadiriyya</span></h1>
+      <p class="sub r" style="--i:2"><span class="fr">De Bagdad à Ndiassane</span><span class="en">From Baghdad to Ndiassane</span></p>
+    </section>
 
+    <!-- 2 : le fondateur de la confrérie -->
+    <section class="scene" data-dur="9.5">
+      <p class="k r" style="--i:0"><span class="fr">Aux origines</span><span class="en">The origins</span></p>
+      <h2 class="r" style="--i:1">Abd al-Qadir al-Jilani</h2>
+      <p class="txt r" style="--i:2"><span class="fr">Prédicateur et savant hanbalite, né en <b>1077</b> dans la région de Gilan. À Bagdad, il dirige une madrasa à partir de <b>1119</b>. La confrérie se forme à partir de son enseignement et de ses disciples.</span><span class="en">A Hanbali scholar and preacher, born in <b>1077</b> in the Gilan region. In Baghdad, he heads a madrasa from <b>1119</b>. The brotherhood takes shape from his teaching and his disciples.</span></p>
+      <div class="nodes r" style="--i:3">
+        <div class="node"><span class="y">1077</span><small><span class="fr">Naissance, région de Gilan</span><span class="en">Born, Gilan region</span></small></div>
+        <div class="node"><span class="y">1119</span><small><span class="fr">Il dirige une madrasa à Bagdad</span><span class="en">He heads a madrasa in Baghdad</span></small></div>
+        <div class="node"><span class="y">1166</span><small><span class="fr">Décès</span><span class="en">Death</span></small></div>
+      </div>
+    </section>
+
+    <!-- 3 : les Kounta -->
+    <section class="scene" data-dur="10.5">
+      <p class="k r" style="--i:0"><span class="fr">Vers l'Afrique de l'Ouest</span><span class="en">Toward West Africa</span></p>
+      <h2 class="r" style="--i:1"><span class="fr">La famille Kounta</span><span class="en">The Kunta family</span></h2>
+      <div class="r" style="--i:2">
+        <div class="cal"><span class="yrs w">1504</span><span class="nm">Sidi Ahmed al-Bakkay<small><span class="fr">Meurt à Akka. Il a fondé une zawiya qadirite à Oualata.</span><span class="en">Dies at Akka. He founded a Qadiri zawiya at Walata.</span></small></span></div>
+        <div class="cal"><span class="yrs w">~1728–1811</span><span class="nm">Sidi al-Mukhtar al-Kunti<small><span class="fr">Étend la Qadiriyya en Mauritanie, au Niger moyen, en Guinée, au Fouta.</span><span class="en">Spreads the Qadiriyya across Mauritania, the middle Niger, Guinea and Futa.</span></small></span></div>
+        <div class="cal"><span class="yrs w">~1780–1868</span><span class="nm">Sidiyya al-Kabir<small><span class="fr">Étudie dans l'Azaouad, au nord de Tombouctou.</span><span class="en">Studies in the Azawad, north of Timbuktu.</span></small></span></div>
+      </div>
+      <p class="note r" style="--i:4"><span class="fr">Les branches mauritaniennes de Sidiyya Baba, de Saad Bouh et de Fadil Mamin sont aussi qadirites.</span><span class="en">The Mauritanian branches of Sidiyya Baba, Saad Bouh and Fadil Mamin are also Qadiri.</span></p>
+    </section>
+
+    <!-- 4 : au Sénégal -->
+    <section class="scene" data-dur="10">
+      <p class="k r" style="--i:0"><span class="fr">Au Sénégal</span><span class="en">In Senegal</span></p>
+      <h2 class="r" style="--i:1"><span class="fr">La Khadre</span><span class="en">The Khadre</span></h2>
+      <div class="leaves r" style="--i:2">
+        <div class="leaf"><span class="t"><span class="fr">La plus ancienne</span><span class="en">The oldest</span></span><span class="f"><span class="fr">La plus ancienne des quatre grandes confréries, présente depuis le <b>XVIIIe siècle</b> selon une source.</span><span class="en">The oldest of the four major brotherhoods, present since the <b>18th century</b> according to one source.</span></span></div>
+        <div class="leaf"><span class="t"><span class="fr">Un lien avec Touba</span><span class="en">A link to Touba</span></span><span class="f"><span class="fr">Le père d'Ahmadou Bamba, Mame Mor Anta Saly Mbacké, était un marabout qadiri.</span><span class="en">Ahmadou Bamba's father, Mame Mor Anta Saly Mbacké, was a Qadiri marabout.</span></span></div>
+      </div>
+      <p class="note r" style="--i:4"><span class="fr">Elle compte moins d'adeptes que la Tijaniyya et le mouridisme, avec un ancrage fort à l'est et au sud. Les chiffres exacts sont mal connus.</span><span class="en">It has fewer followers than the Tijaniyya and Mouridism, with a strong base in the east and south. Exact figures are poorly known.</span></p>
+    </section>
+
+    <!-- 5 : Ndiassane -->
+    <section class="scene" data-dur="10">
+      <p class="k r" style="--i:0"><span class="fr">Capitale spirituelle</span><span class="en">Spiritual capital</span></p>
+      <h2 class="r" style="--i:1">Ndiassane</h2>
+      <p class="txt r" style="--i:2"><span class="fr">À environ 80 km au nord-est de Dakar, près de Tivaouane. Le centre est fondé en <b>1883</b> par <b>Cheikh Bou Kounta</b>, d'une famille kounta venue de la région de Tombouctou.</span><span class="en">About 80 km northeast of Dakar, near Tivaouane. The center is founded in <b>1883</b> by <b>Cheikh Bou Kounta</b>, from a Kunta family that came from the Timbuktu region.</span></p>
+      <div class="nodes two r" style="--i:3">
+        <div class="node"><span class="y">~1800</span><small><span class="fr">La famille quitte la région de Tombouctou, selon un récit local</span><span class="en">The family leaves the Timbuktu region, according to a local account</span></small></div>
+        <div class="node"><span class="y">1883</span><small><span class="fr">Fondation de Ndiassane</span><span class="en">Ndiassane is founded</span></small></div>
+      </div>
+      <p class="note r" style="--i:4"><span class="fr">Écoles coraniques, mosquée, cultures : récit de la communauté.</span><span class="en">Quranic schools, mosque, farming: the community's account.</span></p>
+    </section>
+
+    <!-- 6 : les khalifes -->
+    <section class="scene" data-dur="10">
+      <p class="k r" style="--i:0"><span class="fr">Les guides</span><span class="en">The guides</span></p>
+      <h2 class="r" style="--i:1"><span class="fr">Les khalifes de Ndiassane</span><span class="en">The khalifes of Ndiassane</span></h2>
+      <div class="r" style="--i:2">
+        <div class="cal"><span class="yrs w">1883</span><span class="nm">Cheikh Bou Kounta<small><span class="fr">Fondateur de Ndiassane</span><span class="en">Founder of Ndiassane</span></small></span></div>
+        <div class="cal"><span class="yrs w">2006–2018</span><span class="nm">El Hadj Mame Bou Mamadou Kounta<small><span class="fr">Premier petit-fils du fondateur à devenir khalife</span><span class="en">First grandson of the founder to become khalife</span></small></span></div>
+        <div class="cal"><span class="yrs w"><span class="fr">Aujourd'hui</span><span class="en">Today</span></span><span class="nm"><span class="fr">Khalife actuel</span><span class="en">Current khalife</span><small><span class="fr">Le nom varie selon les sources : non confirmé ici</span><span class="en">The name varies across sources: not confirmed here</span></small></span></div>
+      </div>
+      <p class="note r" style="--i:4"><span class="fr">Entre 1883 et 2006, plusieurs khalifes se sont succédé : la liste reste à documenter.</span><span class="en">Between 1883 and 2006, several khalifes succeeded one another: the full list remains to be documented.</span></p>
+    </section>
+
+    <!-- 7 : Gamou de Ndiassane -->
+    <section class="scene" data-dur="10.5">
+      <div class="split">
+        <div class="col">
+          <p class="k r" style="--i:0"><span class="fr">Rassemblement annuel</span><span class="en">Annual gathering</span></p>
+          <h2 class="r" style="--i:1"><span class="fr">Le Gamou de Ndiassane</span><span class="en">The Ndiassane Gamou</span></h2>
+          <p class="txt r" style="--i:2"><span class="fr">Chaque année, le <b>huitième jour après le Mawlid</b>, des milliers de fidèles venus du Sénégal et des pays voisins se rassemblent. Un petit Gamou a lieu le mois avant le Ramadan.</span><span class="en">Every year, on the <b>eighth day after the Mawlid</b>, thousands of pilgrims from Senegal and neighboring countries gather. A smaller Gamou takes place the month before Ramadan.</span></p>
+          <p class="note r" style="--i:3"><span class="fr">Un récit dit que ce jour évite la même date que le Gamou de Tivaouane. Explication rapportée, non documentée.</span><span class="en">One account says this day avoids the date of the Tivaouane Gamou. Reported explanation, not documented.</span></p>
+        </div>
+        <div class="ring r" style="--i:1" aria-hidden="true">
+          <i style="--a:0deg;--k:0"></i><i style="--a:20deg;--k:1"></i><i style="--a:40deg;--k:2"></i><i style="--a:60deg;--k:3"></i><i style="--a:80deg;--k:4"></i><i style="--a:100deg;--k:5"></i><i style="--a:120deg;--k:6"></i><i style="--a:140deg;--k:7"></i><i style="--a:160deg;--k:8"></i><i style="--a:180deg;--k:9"></i><i style="--a:200deg;--k:10"></i><i style="--a:220deg;--k:11"></i><i style="--a:240deg;--k:12"></i><i style="--a:260deg;--k:13"></i><i style="--a:280deg;--k:14"></i><i style="--a:300deg;--k:15"></i><i style="--a:320deg;--k:16"></i><i style="--a:340deg;--k:17"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 : Ndiassane et Tivaouane -->
+    <section class="scene" data-dur="9.5">
+      <p class="k r" style="--i:0"><span class="fr">Deux confréries voisines</span><span class="en">Two neighboring brotherhoods</span></p>
+      <h2 class="r" style="--i:1">Ndiassane · Tivaouane</h2>
+      <div class="leaves r" style="--i:2">
+        <div class="leaf"><span class="t">Ndiassane</span><span class="f"><span class="fr"><b>Qadiriyya.</b> Fondée en 1883 par Cheikh Bou Kounta.</span><span class="en"><b>Qadiriyya.</b> Founded in 1883 by Cheikh Bou Kounta.</span></span></div>
+        <div class="leaf"><span class="t">Tivaouane</span><span class="f"><span class="fr"><b>Tijaniyya.</b> El Hadji Malick Sy s'y installe en 1902.</span><span class="en"><b>Tijaniyya.</b> El Hadji Malick Sy settles there in 1902.</span></span></div>
+      </div>
+      <p class="note r" style="--i:4"><span class="fr">Les deux villes sont à environ cinq kilomètres l'une de l'autre, selon une source. La famille Kounta a des liens de mariage avec les familles de Touba et de Tivaouane.</span><span class="en">The two towns are about five kilometers apart, according to one source. The Kunta family has marriage ties with the families of Touba and Tivaouane.</span></p>
+    </section>
+
+    <!-- 9 : fin -->
+    <section class="scene center" data-dur="9">
+      <p class="k r" style="--i:0"><span class="fr">Faits et tradition</span><span class="en">Facts and tradition</span></p>
+      <h2 class="r" style="--i:1"><span class="fr">Ce qui est établi, ce qui reste à confirmer</span><span class="en">What is established, what remains to be confirmed</span></h2>
+      <p class="txt r" style="--i:2"><span class="fr">Ndiassane est fondée en 1883 ou 1884 selon les sources. Elles ne s'accordent pas sur le lien entre Cheikh Bou Kounta et Bounama Kounta, père ou grand-père. Le nom du khalife actuel n'est pas confirmé.</span><span class="en">Ndiassane is founded in 1883 or 1884 depending on the source. Sources disagree on how Cheikh Bou Kounta relates to Bounama Kounta, father or grandfather. The current khalife's name is not confirmed.</span></p>
+      <p class="note r" style="--i:3"><span class="fr">Seules les lignées kounta et mauritaniennes sont traitées : d'autres lignées qadirites du Sénégal restent à documenter. Les récits de miracles ne sont pas repris.</span><span class="en">Only the Kunta and Mauritanian lineages are covered: other Qadiri lineages in Senegal remain to be documented. Accounts of miracles are not included.</span></p>
+    </section>
+
+    
+      <div class="prog" aria-hidden="true"><i></i></div>
+    </div>
+
+    <p id="vmsg" class="src" hidden><span class="fr">La voix off n'est pas disponible sur cet appareil ou dans ce navigateur. Essaie Chrome, ou la version hébergée sur ton site.</span><span class="en">Voice-over is not available on this device or browser. Try Chrome, or the version hosted on your site.</span></p>
     <div class="bar">
       <div class="group">
         <button class="btn main" id="play" type="button">Pause</button>
         <button class="btn" id="replay" type="button"><span class="fr">Rejouer</span><span class="en">Replay</span></button>
         <button class="btn" id="next" type="button"><span class="fr">Épisode suivant</span><span class="en">Next episode</span></button>
+      </div>
+      <div class="group">
+        <button class="btn tg" id="voiceBtn" type="button" aria-pressed="true"><span class="fr">Voix off</span><span class="en">Voice-over</span></button>
+        <button class="btn tg" id="musicBtn" type="button" aria-pressed="true"><span class="fr">Musique</span><span class="en">Music</span></button>
       </div>
       <div class="dots" id="dots" role="group" aria-label="Scenes"></div>
       <div class="group">
@@ -823,9 +955,25 @@ button { font-family: inherit; }
       <li><a href="https://en.wikipedia.org/wiki/Protestant_Church_in_Senegal">Wikipedia, Protestant Church in Senegal</a></li>
     </ul>
     <p><span class="fr">Version à faire relire par un historien ou un représentant des Églises concernées avant toute diffusion publique. Les évêques actuels ne sont pas nommés ici.</span><span class="en">Have a historian or a representative of the Churches concerned review this version before any public release. Current bishops are not named here.</span></p></div>
+    <div class="src" data-ep="qadiriyya" hidden><h3>Sources</h3>
+    <ul>
+      <li><a href="https://en.wikipedia.org/wiki/Qadiri">Wikipedia, Qadiri</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Kunta_family">Wikipedia, Kunta family</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Muslim_brotherhoods_of_Senegal">Wikipedia, Muslim brotherhoods of Senegal</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Amadou_Bamba">Wikipedia, Amadou Bamba</a></li>
+      <li><a href="https://aodl.org/islamictolerance/ndiassane/essays/169-621-1/">AODL, Ndiassane (essay)</a></li>
+      <li><a href="https://aodl.org/islamicmodernity/buhKunta/essays/186-707-2/">AODL, Contemporary Dynamics of the Bou Kounta Qadiri Community</a></li>
+      <li><a href="https://aodl.org/islamictolerance/ndiassane/object/169-618-53/n/">AODL, Entretien avec le Khalife de Ndiassane, El Hadj Mame Bou Mamadou Kounta</a></li>
+      <li><a href="https://www.seneweb.com/en/news/Religion/ndiassane-capitale-spirituelle-de-la-qadiriyya_n_421715.html">Seneweb, Ndiassane, capitale spirituelle de la Qadiriyya</a></li>
+      <li><a href="https://lesoleil.sn/le-kiosque/gamou-ndiassane_2026/">Le Soleil, Gamou Ndiassane 2026</a></li>
+    </ul>
+    <p><span class="fr">Version à faire relire par un représentant de la communauté de Ndiassane avant toute diffusion publique. Le khalife actuel n'est pas nommé : les sources consultées ne concordent pas.</span><span class="en">Have a representative of the Ndiassane community review this version before any public release. The current khalife is not named: the sources consulted do not agree.</span></p></div>
   </section>
 </div>
 
+<script>
+var VO = {};
+</script>
 <script>
 (function () {
   var app = document.getElementById('app');
@@ -857,6 +1005,159 @@ button { font-family: inherit; }
   function lang() { return app.getAttribute('data-lang'); }
   function playLabel() { playBtn.textContent = playing ? 'Pause' : (lang() === 'fr' ? 'Lecture' : 'Play'); }
 
+
+  /* ---------- voice-over + ambient music ---------- */
+  var voiceOn = true, musicOn = true, speaking = false, spokenIdx = -2, needGesture = false;
+  var synth = window.speechSynthesis || null;
+  var voiceBtn = document.getElementById('voiceBtn'), musicBtn = document.getElementById('musicBtn');
+  if (!synth || typeof SpeechSynthesisUtterance === 'undefined') { synth = null; }
+  
+  function sceneText(el) {
+    var l = lang(), parts = [];
+    [].forEach.call(el.querySelectorAll('.' + l), function (n) {
+      var p = n.parentNode && n.parentNode.closest ? n.parentNode.closest('.' + l) : null;
+      if (p && el.contains(p)) return;
+      var x = (n.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!x) return;
+      if (!/[.!?:…]$/.test(x)) x += '.';
+      parts.push(x);
+    });
+    return parts.join(' ');
+  }
+  function pickVoice(l) {
+    var vs = synth.getVoices() || [], best = null;
+    vs.forEach(function (v) { if (!best && v.lang && v.lang.toLowerCase().indexOf(l) === 0) best = v; });
+    return best;
+  }
+  function vstat(err) { var n = document.getElementById('vmsg'); if (n) n.hidden = !err || err === 'canceled' || err === 'interrupted'; }
+  var vAudio = null;
+  function stopSpeech() {
+    if (vAudio) { try { vAudio.onended = null; vAudio.onerror = null; vAudio.pause(); } catch (e) {} vAudio = null; }
+    if (synth) { try { synth.cancel(); } catch (e) {} }
+    speaking = false;
+  }
+  function speakScene(i) {
+    stopSpeech();
+    spokenIdx = i;
+    if (!voiceOn || !playing || !scenes[i]) { duck(); return; }
+    var vk = cur + '.' + lang() + '.' + i;
+    var clip = (typeof VO !== 'undefined' && VO[vk]) ? 'data:audio/mpeg;base64,' + VO[vk] : (window.EXT ? 'vo/' + vk + '.mp3' : null);
+    if (clip) {
+      var a = new Audio(clip);
+      vAudio = a; speaking = true; duck();
+      a.onended = function () { if (vAudio === a) { speaking = false; vAudio = null; duck(); } };
+      a.onerror = function () { if (vAudio === a) { speaking = false; vAudio = null; duck(); } };
+      var pr = a.play();
+      if (pr && pr.catch) pr.catch(function () { if (vAudio === a) { speaking = false; vAudio = null; needGesture = true; duck(); } });
+      return;
+    }
+    if (!synth) { duck(); return; }
+    var txt = sceneText(scenes[i]);
+    if (!txt) { duck(); return; }
+    var u = new SpeechSynthesisUtterance(txt), l = lang();
+    u.lang = l === 'fr' ? 'fr-FR' : 'en-GB';
+    var v = pickVoice(l); if (v) u.voice = v;
+    u.rate = 0.95;
+    var done = function () { if (spokenIdx === i) { speaking = false; duck(); } };
+    u.onend = done; u.onerror = function (e) { vstat(e && e.error); done(); };
+    speaking = true; duck();
+    setTimeout(function () { if (spokenIdx === i && speaking) { speaking = false; duck(); } }, Math.min(45000, 4000 + txt.length * 110));
+    var uu = u;
+    setTimeout(function () { if (spokenIdx === i && voiceOn) { try { synth.resume(); synth.speak(uu); } catch (e) { speaking = false; duck(); } } }, 120);
+  }
+
+  var bgm = null;
+  function ensureAudio() {
+    if (bgm) return true;
+    try { bgm = new Audio(window.EXT ? 'piano.mp3' : 'data:audio/mpeg;base64,'); bgm.loop = true; bgm.volume = 0; } catch (e) { return false; }
+    return true;
+  }
+  var fadeT = null;
+  function duck() {
+    if (!bgm) return;
+    var target = (musicOn && playing) ? (speaking ? 0.14 : 0.45) : 0;
+    if (target > 0 && bgm.paused) { var pr = bgm.play(); if (pr && pr.catch) pr.catch(function () {}); }
+    clearInterval(fadeT);
+    fadeT = setInterval(function () {
+      var d = target - bgm.volume;
+      if (Math.abs(d) < 0.02) { bgm.volume = target; clearInterval(fadeT); if (target === 0) bgm.pause(); return; }
+      bgm.volume = Math.max(0, Math.min(1, bgm.volume + d * 0.15));
+    }, 60);
+  }
+  function syncAudio() { duck(); }
+
+  voiceBtn.addEventListener('click', function () {
+    voiceOn = !voiceOn;
+    voiceBtn.setAttribute('aria-pressed', String(voiceOn));
+    if (voiceOn) { if (synth) synth.getVoices(); speakScene(Math.max(idx, 0)); } else { stopSpeech(); duck(); }
+  });
+  musicBtn.addEventListener('click', function () {
+    musicOn = !musicOn;
+    musicBtn.setAttribute('aria-pressed', String(musicOn));
+    if (musicOn && !ensureAudio()) { musicOn = false; musicBtn.setAttribute('aria-pressed', 'false'); return; }
+    duck();
+  });
+  try { ensureAudio(); } catch (e) {}
+  function unlock() {
+    document.removeEventListener('pointerdown', unlock, true); document.removeEventListener('keydown', unlock, true);
+    duck();
+    if (voiceOn && playing && cur && !speaking) speakScene(Math.max(idx, 0));
+  }
+  document.addEventListener('pointerdown', unlock, true); document.addEventListener('keydown', unlock, true);
+  if (synth && synth.addEventListener) synth.addEventListener('voiceschanged', function () {});
+
+
+  /* ---------- photos (Wikipedia, loaded in the visitor's browser) ---------- */
+  var PHT = {
+    mouridisme: ['Grande mosquée de Touba', 'Amadou Bamba', 'Touba'],
+    tijaniyya: ['Tivaouane', 'El Hadji Malick Sy', 'Médina Baye', 'Ibrahima Niasse'],
+    layene: ['Limamou Laye', 'Yoff', 'Layène'],
+    christianisme: ['Cathédrale du Souvenir africain de Dakar', 'Île de Gorée', 'Hyacinthe Thiandoum'],
+    qadiriyya: ['Abdelkader Gilani', 'Qadiriyya', 'Ndiassane']
+  };
+  var photos = {}, phEls = {};
+  function loadPhotos(id) {
+    if (!window.PHOTOS || photos[id]) return;
+    photos[id] = [];
+    PHT[id].forEach(function (title, k) {
+      var tryLang = function (lg) {
+        fetch('https://' + lg + '.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(title.replace(/ /g, '_')))
+          .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+          .then(function (j) {
+            var src = j.thumbnail && j.thumbnail.source ? j.thumbnail.source.replace(/\/\d+px-/, '/1280px-') : (j.originalimage && j.originalimage.source);
+            if (!src) throw 0;
+            var pg = j.content_urls && j.content_urls.desktop ? j.content_urls.desktop.page : 'https://' + lg + '.wikipedia.org';
+            photos[id][k] = { src: src, page: pg, title: j.title || title };
+            if (cur === id && idx >= 0) showPhoto(idx);
+          })
+          .catch(function () { if (lg === 'fr') tryLang('en'); });
+      };
+      try { tryLang('fr'); } catch (e) {}
+    });
+  }
+  function showPhoto(i) {
+    if (!window.PHOTOS || !cur) return;
+    var list = (photos[cur] || []).filter(Boolean);
+    var st = stages[cur];
+    var box = phEls[cur];
+    if (!box) {
+      var d = document.createElement('div'); d.className = 'phl';
+      d.appendChild(document.createElement('img')); d.appendChild(document.createElement('img'));
+      var a = document.createElement('a'); a.className = 'phc'; a.target = '_blank'; a.rel = 'noopener'; a.hidden = true;
+      st.insertBefore(d, st.firstChild); st.appendChild(a);
+      box = phEls[cur] = { d: d, a: a, imgs: d.children, cur: -1, flip: 0 };
+      [].forEach.call(box.imgs, function (im) { im.alt = ''; im.addEventListener('error', function () { im.classList.remove('on'); }); });
+    }
+    if (!list.length) return;
+    var p = list[i % list.length], n = i % list.length;
+    if (box.cur === n) return;
+    box.cur = n;
+    var nx = box.imgs[box.flip ^= 1], pv = box.imgs[box.flip ^ 1];
+    nx.classList.remove('on'); void nx.offsetWidth; nx.src = p.src; nx.classList.add('on');
+    pv.classList.remove('on');
+    box.a.hidden = false; box.a.href = p.page; box.a.textContent = 'Wikipédia · ' + p.title;
+  }
+
   function show(i, restart) {
     scenes.forEach(function (s, k) { if (k !== i) s.classList.remove('on'); });
     var el = scenes[i];
@@ -867,10 +1168,14 @@ button { font-family: inherit; }
     }
     dots.forEach(function (d, k) { d.classList.toggle('cur', k === i); });
     idx = i;
+    try { showPhoto(i); } catch (e) {}
+    if (voiceOn) speakScene(i);
   }
 
   function load(id, scroll) {
     cur = id;
+    stopSpeech();
+    try { loadPhotos(id); } catch (e) {}
     order.forEach(function (k) {
       stages[k].hidden = k !== id;
       srcs[k].hidden = k !== id;
@@ -911,7 +1216,14 @@ button { font-family: inherit; }
     last = ts;
     if (dt > 0.5) dt = 0;
     if (cur) {
-      if (playing) { t += dt; if (t >= total) t = 0; }
+      if (playing) {
+        t += dt;
+        if (voiceOn && speaking && idx >= 0) {
+          var lim = (idx + 1 < starts.length ? starts[idx + 1] : total) - 0.02;
+          if (t > lim) t = lim;
+        }
+        if (t >= total) t = 0;
+      }
       var i = 0;
       for (var k = scenes.length - 1; k >= 0; k--) { if (t >= starts[k]) { i = k; break; } }
       if (i !== idx) show(i, false);
@@ -924,6 +1236,8 @@ button { font-family: inherit; }
     playing = !playing;
     if (cur) stages[cur].classList.toggle('paused', !playing);
     playLabel();
+    if (!playing) { if (vAudio) { vAudio.pause(); } else stopSpeech(); } else if (voiceOn) { if (vAudio && vAudio.paused) { var rp = vAudio.play(); if (rp && rp.catch) rp.catch(function () {}); } else speakScene(Math.max(idx, 0)); }
+    syncAudio();
   });
   document.getElementById('replay').addEventListener('click', function () {
     if (!cur) return;
@@ -938,6 +1252,7 @@ button { font-family: inherit; }
     document.documentElement.lang = l;
     [].forEach.call(document.querySelectorAll('.lang-btn'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-l') === l)); });
     playLabel();
+    if (voiceOn && cur && idx >= 0) speakScene(idx);
     try { localStorage.setItem('spirituel-lang', l); } catch (e) {}
   }
   [].forEach.call(document.querySelectorAll('.lang-btn'), function (b) {
