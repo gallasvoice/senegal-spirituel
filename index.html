@@ -1041,7 +1041,7 @@ var VO = {};
     spokenIdx = i;
     if (!voiceOn || !playing || !scenes[i]) { duck(); return; }
     var vk = cur + '.' + lang() + '.' + i;
-    var clip = (typeof VO !== 'undefined' && VO[vk]) ? 'data:audio/mpeg;base64,' + VO[vk] : (window.EXT ? 'vo/' + vk + '.mp3' : null);
+    var clip = (typeof VO !== 'undefined' && VO[vk]) ? 'data:audio/mpeg;base64,' + VO[vk] : (window.EXT ? vk + '.mp3' : null);
     if (clip) {
       var a = new Audio(clip);
       vAudio = a; speaking = true; duck();
